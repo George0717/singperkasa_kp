@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
+import Sidebar from './components/sidebar'
+import SalesOrder from "./page/SalesOrder";
 import './App.css';
 
 function App() {
   return (
+    <Router>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Container fluid>
+        <Row>
+        <Col xs={12} md={3} className="sidebar-col">
+          {/* <Sidebar /> */}
+        </Col>
+          <Col md={9} className="content-col">
+            <Routes>
+              <Route path="/" element={<SalesOrder />} />
+              
+            </Routes>
+          </Col>
+        </Row>
+      </Container>
     </div>
+  </Router>
   );
 }
 
