@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import Sidebar from './components/sidebar'
 import SalesOrder from "./page/SalesOrder";
+import JadwalPengirim from "./page/JadwalPengiriman"
+import DetailSalesOrder from "./page/Sales Order/DetailSalesOrder"
 import './App.css';
 
 function App() {
@@ -16,7 +18,8 @@ function App() {
           <Col md={9} className="content-col">
             <Routes>
               <Route path="/" element={<SalesOrder />} />
-              
+              <Route path="/jadwal-pengiriman" element={<JadwalPengirim />} />
+              <Route path="/detail-sales" element={<DetailSalesOrder />} />
             </Routes>
           </Col>
         </Row>
