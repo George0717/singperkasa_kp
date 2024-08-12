@@ -11,6 +11,7 @@ import {  CardContent,
   TableCell,
   TableBody,Card, Button, Dialog, DialogActions, DialogContent, DialogTitle, CircularProgress, Container, Grid, Typography, Snackbar, Alert, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import AddIcon from '@mui/icons-material/Add';
 import { Helmet } from 'react-helmet';
 
 const CustomCard = styled(Card)(({ theme }) => ({
@@ -21,6 +22,26 @@ const CustomCard = styled(Card)(({ theme }) => ({
   boxShadow: theme.shadows[5],
   margin: theme.spacing(2),
 }));
+
+const CustomButton = styled(Button)({
+  backgroundColor: '#158843',
+  color: '#ffffff',
+  padding: '10px 20px',
+  borderRadius: '8px',
+  transition: 'transform 0.3s ease, background-color 0.3s ease',
+  position: 'absolute',
+  top: '10px',
+  right: '10px',
+  '&:hover': {
+    backgroundColor: '#106935',
+    transform: 'scale(1.05)',
+  },
+  '&:active': {
+    transform: 'scale(0.95)',
+  },
+});
+
+
 
 const LetterCard = styled(Card)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -117,6 +138,23 @@ const DetailSalesOrder = () => {
       if (result.isConfirmed) {
         // Redirect to the edit page
         window.location.href = `/edit-salesorder/${id}`;
+      }
+    });
+  };
+
+  const handleCreate = (id) => {
+    Swal.fire({
+      title: 'Apakah Anda ingin menambahkan data?',
+      text: "Anda akan diarahkan ke halaman membuat Sales Order",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, Buat'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Redirect to the edit page
+        window.location.href = `/buat-sales-order`;
       }
     });
   };
@@ -222,6 +260,7 @@ doc.save(`Sales_Order_${selectedOrder.nomorSO}.pdf`);
       <title>Detail Sales Order</title>
     </Helmet>
       <Typography variant="h4" align="center" gutterBottom>Detail Sales Order</Typography>
+      <CustomButton variant="container" color="success" startIcon={<AddIcon />} onClick={() => handleCreate()} sx={{ marginRight: 1 }}>Tambah Data</CustomButton>
       <TextField
         label="Search"
         variant="outlined"
@@ -314,7 +353,7 @@ doc.save(`Sales_Order_${selectedOrder.nomorSO}.pdf`);
             <TableBody>
               <TableRow>
                 <TableCell>Diskon</TableCell>
-                <TableCell align="right">{selectedOrder.subTotal.diskon.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })} (% / IDR)</TableCell>
+                <TableCell align="right">{selectedOrder.subTotal?.diskon.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' }) || 0} (% / IDR)</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Uang Muka</TableCell>
