@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Container,
@@ -62,6 +62,33 @@ const SalesOrder = () => {
       subTotal + taxAmount - discountAmount - (downPayment || 0);
     return { subTotal, grandTotal, taxAmount };
   };
+
+  useEffect(() => {
+    const generateSoNumber = async () => {
+        try {
+            const response = await axios.get(
+                "https://backend-penjualan-blond.vercel.app/salesorder/last"
+            );
+            
+            // Cek response untuk memastikan struktur yang benar
+            console.log("Backend Response:", response.data);
+
+            // Pastikan akses data sesuai dengan struktur response
+            const lastSoNumber = response.data.penjualanApp?.data?.nomorSO || "SOSPA00";
+            console.log("Setting SO Number to:", lastSoNumber);
+
+            // Set nomor SO dengan benar
+            setSoNumber(lastSoNumber);
+        } catch (error) {
+            console.error("Error generating SO Number:", error);
+        }
+    };
+
+    generateSoNumber();
+}, []);
+
+
+console.log("Current SO Number State:", soNumber);
 
   const generatePDF = () => {
     const doc = new jsPDF();
@@ -194,6 +221,8 @@ const SalesOrder = () => {
       align: "center",
     });
 
+   
+
     const filename = `SalesOrder_${soNumber}.pdf`;
     doc.save(filename);
   };
@@ -262,7 +291,7 @@ const SalesOrder = () => {
         "https://backend-penjualan-blond.vercel.app/salesorder",
         salesOrderData
       );
-      navigate('/detai-sales')
+      navigate('/sales-order')
       alert("Sales Order submitted successfully!");
     } catch (error) {
       console.error("Error submitting sales order:", error);
@@ -322,8 +351,8 @@ const SalesOrder = () => {
               fullWidth
               label="SO Number"
               value={soNumber}
-              onChange={(e) => setSoNumber(e.target.value)}
               required
+              disabled
             />
           </Grid>
           <Grid item xs={12}>
