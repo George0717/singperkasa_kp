@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,16 +14,16 @@ function SideBar() {
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <ul className="sidebar-menu">
           <li className="sidebar-item active">
-            <a href="#home">Home</a>
+            <Link to="/" onClick={toggleSidebar}>Home</Link>
           </li>
           <li className="sidebar-item">
-            <a href="/sales-order">Detail Sales</a>
+            <Link to="/sales-order" onClick={toggleSidebar}>Detail Sales</Link>
           </li>
           <li className="sidebar-item">
-            <a href="#services">Services</a>
+            <Link to="/home-jadwalkirim" onClick={toggleSidebar}>Jadwal Kirim</Link>
           </li>
           <li className="sidebar-item">
-            <a href="#contact">Contact</a>
+            <Link to="/contact" onClick={toggleSidebar}>Contact</Link>
           </li>
         </ul>
       </div>
